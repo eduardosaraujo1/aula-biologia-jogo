@@ -1,2 +1,66 @@
 /**/
+:root {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    min-width: 0;
+    overflow: hidden
+}
 
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    min-width: 0;
+}
+
+body {
+    background-color: aqua;
+}
+
+.container {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100vw;
+    display: flex;
+    flex-direction: column;
+}
+
+.entity img {
+    position: relative;
+    width: 128px;
+}
+.entity {
+    position: relative;
+    height: auto;
+    height: fit-content;
+}
+
+.entities {
+    display: flex;
+    flex-direction: row;
+    align-items: end;
+    gap: 1rem;
+}
+
+.wolf, .deer {
+    left: 0px;
+}
+
+.floor {
+    position: relative;
+    bottom: 0;
+    left: 0;
+    width: 100vw;
+    height: 360px;
+    background-color: green;
+}
+
+
+#points {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    color: red;
+}

@@ -7,11 +7,52 @@
     <script src="components/loader.js"></script>
     <link rel="stylesheet" href="components/loader.css">
     <link rel="stylesheet" href="css/style.css">
-    <script>
-    </script>
 </head>
 <body>
-	<br />
-    This is a template for Monaca app.
+    <h1 id="points">0</h1>
+    <div class="container">
+        <div class="entities">
+            <div class="entity wolf" style="left: 0px"><img src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse2.mm.bing.net%2Fth%3Fid%3DOIP.pa923B-0adq6N-p-a1nvHAHaHa%26pid%3DApi&f=1&ipt=dd2f870cd4d99708ad419db8c577030ca3e58dc30e1450d13009dfc8aab0bf33&ipo=images" alt=""></div>
+            <div class="entity deer" style="left: 0px"><img src="https://st2.depositphotos.com/7857468/12332/v/950/depositphotos_123326470-stock-illustration-mouse-deer-cartoon-illustration.jpg" alt=""></div>
+        </div>
+        <div class="floor"></div>
+    </div>
+    <script>
+        const loup=document.querySelector(".wolf");
+        const deer=document.querySelector(".deer")
+        const WALK_INCEMENT=15;
+        const DEER_LIMIT=800
+
+        function checkDeerColision() {
+            const rect1 = loup.getBoundingClientRect(); 
+            const rect2 = deer.getBoundingClientRect(); 
+            
+            if (!(rect1.right < rect2.left ||  
+                rect2.left > rect2.right ||  
+                rect1.bottom < rect2.top ||  
+                rect1.top > rect2.bottom)) { 
+
+                deer.style.left = Math.floor(Math.random() * DEER_LIMIT) + "px";
+                let pointCount=parseInt(document.getElementById("points").innerHTML);
+                pointCount++;
+                document.getElementById("points").innerHTML = pointCount
+            }
+        }
+
+        document.addEventListener("keydown", (e) => {
+            if (e.key === "ArrowLeft" || e.key === "a")
+            {
+                loup.style.left = -WALK_INCEMENT + parseInt(loup.style.left) + "px"
+            }
+            else if (e.key === "ArrowRight" || e.key === "d")
+            {
+                loup.style.left = WALK_INCEMENT + parseInt(loup.style.left) + "px"
+            }
+        })
+
+        setInterval(checkDeerColision, 200)
+        alert("Utilize as setinhas ou WASD para controlar o lobo. Vá até o veado para mata-lo.")
+        // Eu fiz o que pude em poucos minutos
+    </script>
 </body>
 </html>
