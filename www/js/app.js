@@ -73,7 +73,6 @@ function wolfMoveStop(e) {
 
 function wolfMoveTick(e) {
     if (!moving) return;
-    console.log(e.type);
 
     let newCursorX, newCursorY;
     if (e.type === "touchmove") {
