@@ -1,66 +1,83 @@
-/**/
-:root {
-    margin: 0;
+* {
     padding: 0;
+    margin: 0;
     box-sizing: border-box;
     min-width: 0;
-    overflow: hidden
 }
 
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    min-width: 0;
+:root {
+    font-family:'Courier New', Courier, monospace;
+    background-color: limegreen;
 }
 
 body {
-    background-color: aqua;
-}
-
-.container {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 100vw;
     display: flex;
     flex-direction: column;
+    height: 100vh;
 }
 
-.entity img {
-    position: relative;
-    width: 128px;
-}
-.entity {
-    position: relative;
-    height: auto;
-    height: fit-content;
-}
-
-.entities {
+.game-header-bar {
+    width: 100vw;
+    height: 5vh;
+    z-index: 10;
+    background-color: green;
     display: flex;
     flex-direction: row;
-    align-items: end;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 1rem;
+}
+
+.points-display {
+    font-size: 1.1rem;
+}
+
+#points {
+    color: darkred;
+}
+
+.controls {
+    display: flex;
+    flex-direction: row;
     gap: 1rem;
 }
 
-.wolf, .deer {
-    left: 0px;
+.btn {
+    cursor: pointer;
+    color: black;
 }
 
-.floor {
+.game-window {
     position: relative;
-    bottom: 0;
-    left: 0;
-    width: 100vw;
-    height: 360px;
-    background-color: green;
+    flex: 1;
 }
 
-
-#points {
+.entity {
+    width: 128px;
+    height: 128px;
+    background-size: cover;
     position: absolute;
-    top: 10px;
-    left: 10px;
-    color: red;
 }
+
+@media screen and (max-width: 600px) {
+    .entity {
+        width: 64px;
+        height: 64px;
+    }
+}
+
+#wolf {
+    z-index: 1;
+    transform: scale(105%, 105%);
+    background-image: url('../assets/lobo.png');
+    cursor: grab;
+}
+
+#deer {
+    background-image: url('../assets/veado.png');
+}
+
+#hunter1, #hunter2 {
+    background-image: url('../assets/hunter.png');
+}
+
