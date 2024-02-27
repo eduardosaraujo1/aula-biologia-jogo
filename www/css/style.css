@@ -53,15 +53,19 @@ body {
 }
 
 .entity {
-    width: 128px;
-    height: 128px;
-    background-size: cover;
+    width: fit-content;
+    height: fit-content;
     position: absolute;
 }
 
+.entity img {
+    width: auto;
+    height: 128px;
+}
+
 @media screen and (max-width: 600px) {
-    .entity {
-        width: 64px;
+    .entity img {
+        width: auto;
         height: 64px;
     }
 }
@@ -69,15 +73,9 @@ body {
 #wolf {
     z-index: 1;
     transform: scale(105%, 105%);
-    background-image: url('../assets/lobo.png');
     cursor: grab;
 }
 
 #deer {
-    background-image: url('../assets/veado.png');
+    transform: scale(95%, 95%);
 }
-
-#hunter1, #hunter2 {
-    background-image: url('../assets/hunter.png');
-}
-
