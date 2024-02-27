@@ -1,4 +1,6 @@
 let HUNTER_TP_POINT_REQ;
+const hunterPointHardMode = 1;
+const hunterPointEasyMode = 10;
 const gameWindow = document.querySelector(".game-window");
 const entity = {
     wolf: document.querySelector("#wolf"),
@@ -14,8 +16,6 @@ const gameState = {
 }
 
 function toggleDifficultyMode() {
-    const hunterPointHardMode = 1;
-    const hunterPointEasyMode = 10;
     gameState.difficultyMode = !gameState.difficultyMode;
     if (gameState.difficultyMode) {
         document.querySelector(":root").style.backgroundColor = "goldenrod";
@@ -32,6 +32,7 @@ function toggleDifficultyMode() {
 
 function loadDifficultyEasterEgg() {
     document.querySelector(".points-display").addEventListener("click", toggleDifficultyMode);
+    HUNTER_TP_POINT_REQ = hunterPointEasyMode;
 }
 
 function checkRectColision(rect1, rect2) {
