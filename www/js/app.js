@@ -1,4 +1,4 @@
-const POINT_REQ_HUNTER_RANDOMIZE = 1;
+let HUNTER_TP_POINT_REQ;
 const gameWindow = document.querySelector(".game-window");
 const entity = {
     wolf: document.querySelector("#wolf"),
@@ -9,7 +9,29 @@ const entity = {
 const gameState = {
     points: 0,
     maxPoints: 0,
-    deathCount: 0
+    deathCount: 0,
+    difficultyMode: false
+}
+
+function toggleDifficultyMode() {
+    const hunterPointHardMode = 1;
+    const hunterPointEasyMode = 10;
+    gameState.difficultyMode = !gameState.difficultyMode;
+    if (gameState.difficultyMode) {
+        document.querySelector(":root").style.backgroundColor = "goldenrod";
+        document.querySelector(".game-header-bar").style.backgroundColor = "darkgoldenrod";
+        HUNTER_TP_POINT_REQ = hunterPointHardMode;
+    }
+    else {
+        document.querySelector(":root").style.backgroundColor = "";
+        document.querySelector(".game-header-bar").style.backgroundColor = "";
+        HUNTER_TP_POINT_REQ = hunterPointEasyMode;
+    }
+
+}
+
+function loadDifficultyEasterEgg() {
+    document.querySelector(".points-display").addEventListener("click", toggleDifficultyMode);
 }
 
 function checkRectColision(rect1, rect2) {
@@ -173,7 +195,7 @@ function checkGameStatus() {
         randomizeEntityPos(entity.deer);
 
         // Hunters change position every POINT_REQ_HUNTER_RANDOMIZE
-        if (gameState.points % POINT_REQ_HUNTER_RANDOMIZE === 0) {
+        if (gameState.points % HUNTER_TP_POINT_REQ === 0) {
             randomizeEntityPos(entity.hunter1);
             randomizeEntityPos(entity.hunter2);
         }
@@ -231,9 +253,9 @@ function restartGame() {
 }
 
 function load() {
-    // Load Entities
     resetEntities();
     loadPlayerMovement();
+    loadDifficultyEasterEgg();
 
     // Load button
     const btnRestart = document.querySelector("#restart");

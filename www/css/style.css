@@ -7,7 +7,9 @@
 
 :root {
     font-family:'Courier New', Courier, monospace;
+    background-color: goldenrod;
     background-color: limegreen;
+    overflow: hidden;
 }
 
 body {
@@ -20,6 +22,7 @@ body {
     width: 100vw;
     height: 5vh;
     z-index: 10;
+    background-color: darkgoldenrod;
     background-color: green;
     display: flex;
     flex-direction: row;
