@@ -1,3 +1,4 @@
+const POINT_REQ_HUNTER_RANDOMIZE = 1;
 const gameWindow = document.querySelector(".game-window");
 const entity = {
     wolf: document.querySelector("#wolf"),
@@ -9,19 +10,6 @@ const gameState = {
     points: 0,
     maxPoints: 0,
     deathCount: 0
-}
-
-function randomizeDivPosition(div) {
-    const gameWindowWidth = gameWindow.clientWidth;
-    const gameWindowHeight = gameWindow.clientHeight;
-    const divWidth = div.clientWidth;
-    const divHeight = div.clientHeight;
-
-    const divX = getRandomNumber(divWidth, gameWindowWidth) - divWidth;
-    const divY = getRandomNumber(divHeight, gameWindowHeight) - divHeight;
-
-    div.style.left = divX + "px";
-    div.style.top = divY + "px";
 }
 
 function checkRectColision(rect1, rect2) {
@@ -38,8 +26,64 @@ function checkRectColision(rect1, rect2) {
     return colliding;
 }
 
+function spawnStyledDiv(style) {
+    const div = document.createElement("div");
+    div.style = style;
+    gameWindow.appendChild(div);
+    return div;
+}
+
 function getRandomNumber(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+function getRandomPosition(div) {
+    const gameWindowWidth = gameWindow.clientWidth;
+    const gameWindowHeight = gameWindow.clientHeight;
+    const divWidth = div.clientWidth;
+    const divHeight = div.clientHeight;
+
+    const divX = getRandomNumber(divWidth, gameWindowWidth) - divWidth;
+    const divY = getRandomNumber(divHeight, gameWindowHeight) - divHeight;
+
+    return [divX, divY];
+}
+
+function validatePosition(pos, ent) {
+    // This works by spawning a dummy div same size as entity and checking if it colides with
+    // the player, if it does, then return false, otherwise return true
+    const tpWiggleRoom = 16;
+    const width = ent.clientWidth + tpWiggleRoom;
+    const height = ent.clientHeight + tpWiggleRoom;
+
+    const style = `
+    position:absolute;
+    width:${width}px;
+    height:${height}px;
+    left:${pos[0]}px;
+    top:${pos[1]}px;`;
+
+    const dummyDiv = spawnStyledDiv(style);
+    const result = !checkRectColision(entity.wolf, dummyDiv);
+
+    dummyDiv.remove();
+    return result;
+}
+
+function generateValidPosition(ent) {
+    let pos;
+    let valid = false;
+    while (!valid) {
+        pos = getRandomPosition(ent);
+        valid = validatePosition(pos, ent)
+    }
+    return pos;
+}
+
+function randomizeEntityPos(ent) {
+    const pos = generateValidPosition(ent);
+    ent.style.left = pos[0] + "px";
+    ent.style.top = pos[1] + "px";
 }
 
 let moving = false;
@@ -126,23 +170,27 @@ function checkGameStatus() {
     // If player catches deer, win point
     if (checkRectColision(entity.wolf, entity.deer)) {
         awardPoint();
-        randomizeDivPosition(entity.deer);
+        randomizeEntityPos(entity.deer);
 
-        // Litte quirk I decided to put in 
-        if (gameState.points % 25 === 0) {
-            randomizeDivPosition(entity.hunter1);
-            randomizeDivPosition(entity.hunter2);
+        // Hunters change position every POINT_REQ_HUNTER_RANDOMIZE
+        if (gameState.points % POINT_REQ_HUNTER_RANDOMIZE === 0) {
+            randomizeEntityPos(entity.hunter1);
+            randomizeEntityPos(entity.hunter2);
         }
     }
 
     // If player touches hunter, lose and reset
-    if (checkRectColision(entity.wolf, entity.hunter1) || checkRectColision(entity.wolf, entity.hunter2)) {
+    if (checkRectColision(entity.wolf, entity.hunter1) || 
+        checkRectColision(entity.wolf, entity.hunter2)) 
+    {
         restartGame();
     }
 
     // If hunter touches deer, reset deer but don't award point
-    if (checkRectColision(entity.deer, entity.hunter1) || checkRectColision(entity.deer, entity.hunter2)) {
-        randomizeDivPosition(entity.deer);
+    if (checkRectColision(entity.deer, entity.hunter1) || 
+        checkRectColision(entity.deer, entity.hunter2))
+    {
+        randomizeEntityPos(entity.deer);
     }
 }
 
@@ -169,9 +217,9 @@ function resetPoints() {
 
 function resetEntities() {
     // Reset Positions
-    randomizeDivPosition(entity.deer);
-    randomizeDivPosition(entity.hunter1);
-    randomizeDivPosition(entity.hunter2);
+    randomizeEntityPos(entity.deer);
+    randomizeEntityPos(entity.hunter1);
+    randomizeEntityPos(entity.hunter2);
     entity.wolf.style.left = "0px";
     entity.wolf.style.top = "0px";
 }
@@ -193,3 +241,5 @@ function load() {
 }
 
 load();
+
+// TODO: Dynamic enemy count instead of hard coded
